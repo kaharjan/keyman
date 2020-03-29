@@ -95,7 +95,7 @@ public class PackageActivity extends AppCompatActivity {
     String pkgVersion = kmpProcessor.getPackageVersion(pkgInfo);
     String pkgName = kmpProcessor.getPackageName(pkgInfo);
 
-    toolbar = (Toolbar) findViewById(R.id.list_toolbar);
+    toolbar = (Toolbar) findViewById(R.id.titlebar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setTitle(null);
     getSupportActionBar().setDisplayUseLogoEnabled(false);
