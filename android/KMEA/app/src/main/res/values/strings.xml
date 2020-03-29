@@ -91,6 +91,20 @@
       <item quantity="other">(%1$d keyboards)</item>
     </plurals>
 
+    <!-- KMP Package strings -->
+    <string name="title_package">Package</string>
+    <string name="title_failed_to_install">failed to install</string>
+    <string name="downloading_keyboard_package">Downloading keyboard package</string>
+    <string name="failed_to_extract" comment="Keyboard package failed to unzip">Failed to extract</string>
+    <string name="install_keyboard_package">Install Keyboard Package</string>
+    <string name="install_predictive_text_package">Install Predictive Text Package</string>
+    <string name="no_new_touch_keyboards_to_install">No new touch-optimized keyboards to install</string>
+    <string name="no_new_predictive_text_to_install">No new predictive text to install</string>
+    <string name="no_valid_touch_keyboards_to_install">No valid touch-optimized keyboards to install</string>
+    <string name="no_targets_to_install">No keyboards or predictive text to install</string>
+    <string name="missing_metadata" comment="kmp.json file is missing from the keyboard package">kmp.json does not exist</string>
+    <string name="invalid_metadata">Invalid metadata in package</string>
+
     <!-- Content descriptions -->
     <string name="image_button" translatable="false">Image Button</string>
     <string name="image_view" translatable="false">Image View</string>

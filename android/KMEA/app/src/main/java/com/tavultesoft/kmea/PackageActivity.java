@@ -1,4 +1,4 @@
-package com.tavultesoft.kmapro;
+package com.tavultesoft.kmea;
 
 import android.annotation.SuppressLint;
 import androidx.appcompat.widget.Toolbar;
@@ -95,18 +95,17 @@ public class PackageActivity extends AppCompatActivity {
     String pkgVersion = kmpProcessor.getPackageVersion(pkgInfo);
     String pkgName = kmpProcessor.getPackageName(pkgInfo);
 
-    toolbar = (Toolbar) findViewById(R.id.titlebar);
+    toolbar = (Toolbar) findViewById(R.id.list_toolbar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setTitle(null);
     getSupportActionBar().setDisplayUseLogoEnabled(false);
     getSupportActionBar().setDisplayShowHomeEnabled(false);
     getSupportActionBar().setDisplayShowTitleEnabled(false);
     getSupportActionBar().setDisplayShowCustomEnabled(true);
-    getSupportActionBar().setBackgroundDrawable(MainActivity.getActionBarDrawable(this));
 
     TextView packageActivityTitle = new TextView(this);
     packageActivityTitle.setWidth((int) getResources().getDimension(R.dimen.package_label_width));
-    packageActivityTitle.setTextSize(getResources().getDimension(R.dimen.titlebar_label_textsize));
+    //packageActivityTitle.setTextSize(getResources().getDimension(R.dimen.titlebar_label_textsize));
     packageActivityTitle.setGravity(Gravity.CENTER);
 
     String pkgTargetTitle = pkgTarget.equals(PackageProcessor.PP_TARGET_KEYBOARDS) ? 

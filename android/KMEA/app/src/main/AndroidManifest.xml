@@ -73,6 +73,11 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.Dialog" >
         </activity>
+        <activity
+            android:name="com.tavultesoft.kmea.PackageActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize"
+            android:label="@string/app_name">
+        </activity>
     </application>
 
 </manifest>

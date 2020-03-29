@@ -5,6 +5,7 @@
     <dimen name="keyboard_height">205dp</dimen>
     <dimen name="key_width">34.25dp</dimen>
     <dimen name="key_height">49.25dp</dimen>
+    <dimen name="package_label_width">250dp</dimen>
     <dimen name="popup_arrow_width">21dp</dimen>
     <dimen name="popup_arrow_height">8dp</dimen>
     <dimen name="popup_margin">4dp</dimen>

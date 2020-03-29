@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".PackageActivity" >
 
-    <include layout="@layout/titlebar" />
+    <include layout="@layout/list_toolbar" />
     <WebView
         android:id="@+id/packageWebView"
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="15dp"
         android:text="@string/label_ok"
-        android:textColor="@color/keyman_blue"
+        android:textColor="@android:color/black"
         android:elevation="1dp"
         android:singleLine="true"/>
 
@@ -49,7 +49,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="15dp"
             android:text="@string/label_cancel"
-            android:textColor="@color/keyman_blue"
+            android:textColor="@android:color/black"
             android:elevation="1dp"
             android:singleLine="true"/>
 
@@ -61,7 +61,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="15dp"
             android:text="@string/label_install"
-            android:textColor="@color/keyman_blue">
+            android:textColor="@android:color/black">
             <requestFocus/>
         </Button>
 
