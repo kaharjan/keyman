@@ -24,17 +24,19 @@ function die {
 }
 
 function display_usage {
-  echo "Usage: build_keyboards.sh [-copy-keyboards] [-clean-keyboards] [-debug] [-h|-?]"
+  echo "Usage: build_keyboards.sh [-copy-keyboards] [-clean-keyboards] [-do-packages] [-debug] [-h|-?]"
   echo "Builds all keyboards used by the app and copies them into the"
   echo "target path."
   echo "  -copy-keyboards: Only copy the keyboards; don't rebuild them"
   echo "  -clean-keyboards: Clean the keyboards from this repo"
+  echo "  -do-packages: Copies kmp packages, not just js files"
   echo "  -debug: Build debug versions of the keyboards"
   exit 1
 }
 
 DO_CLEAN=true
 DO_COPY=true
+DO_PACKAGES=false
 DO_BUILD=true
 
 while [[ $# -gt 0 ]] ; do
@@ -50,6 +52,9 @@ while [[ $# -gt 0 ]] ; do
       DO_COPY=false
       DO_BUILD=false
       ;;
+    -do-packages)
+      DO_PACKAGES=true
+      ;;
     -debug)
       BUILD_FLAGS="-debug"
       ;;
@@ -61,7 +66,11 @@ done
 
 if [ $DO_CLEAN = true ]; then
   echo "Cleaning target path $KEYBOARDS_TARGET"
-  rm -rf $KEYBOARDS_TARGET/*
+  if [ $DO_PACKAGES=true ]; then
+    rm -f $KEYBOARDS_TARGET/*.kmp
+  else  
+    rm -rf $KEYBOARDS_TARGET/*
+  fi
   echo "Removing file $KEYBOARDS_CSV_TARGET"
   rm -f $KEYBOARDS_CSV_TARGET
 fi
@@ -91,10 +100,15 @@ if [ $DO_BUILD = true ] || [ $DO_COPY = true ]; then
         WINEDEBUG=fixme-nls,fixme-thread "./build.sh" release/$shortname/$id || die "Unable to build keyboard $shortname/$id"
       fi
       if [ $DO_COPY = true ]; then
-        echo "Copying $id ($name) to $KEYBOARDS_TARGET"
-        mkdir -p "$SCRIPT_ROOT/$KEYBOARDS_TARGET/$id"
-        unzip -o release/$shortname/$id/build/$id.kmp $id.js kmp.json -d "$SCRIPT_ROOT/$KEYBOARDS_TARGET/$id/" 
-        # cp release/$shortname/$id/build/$id.keyboard_info "$SCRIPT_ROOT/$KEYBOARDS_TARGET/$id.keyboard_info"
+        if [ $DO_PACKAGES = true ]; then
+          echo "Copying $id ($name) kmp to $KEYBOARDS_TARGET"
+          cp release/$shortname/$id/build/$id.kmp "$SCRIPT_ROOT/$KEYBOARDS_TARGET/"
+        else  
+          echo "Copying $id ($name) to $KEYBOARDS_TARGET"
+          mkdir -p "$SCRIPT_ROOT/$KEYBOARDS_TARGET/$id"
+          unzip -o release/$shortname/$id/build/$id.kmp $id.js kmp.json -d "$SCRIPT_ROOT/$KEYBOARDS_TARGET/$id/" 
+          # cp release/$shortname/$id/build/$id.keyboard_info "$SCRIPT_ROOT/$KEYBOARDS_TARGET/$id.keyboard_info"
+        fi
       fi
 #        die "done"
     done

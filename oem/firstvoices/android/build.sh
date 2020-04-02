@@ -25,7 +25,7 @@ display_usage ( ) {
 }
 
 export TARGET=FirstVoices
-export KEYBOARDS_TARGET=app/src/main/assets/packages
+export KEYBOARDS_TARGET=app/src/main/assets/
 export KEYBOARDS_CSV_TARGET=app/src/main/assets/keyboards.csv
 
 # This build script assumes that the https://github.com/keymanapp/keyboards repo is in
@@ -35,6 +35,7 @@ export KEYBOARDS_ROOT=../../../../keyboards
 
 PARAM_COPY_KEYBOARDS=
 PARAM_CLEAN_KEYBOARDS=
+PARAM_DO_PACKAGES=-do-packages
 PARAM_DEBUG=
 PARAM_NO_DAEMON=
 PARAM_NO_UPDATE=
@@ -77,7 +78,7 @@ if [ ! -z "$PARAM_LIB_BUILD" ] && [ ! -z "$PARAM_NO_LIB_BUILD" ]; then
   exit 1
 fi
 
-../common/build_keyboards.sh $PARAM_COPY_KEYBOARDS $PARAM_CLEAN_KEYBOARDS $PARAM_DEBUG
+../common/build_keyboards.sh $PARAM_COPY_KEYBOARDS $PARAM_CLEAN_KEYBOARDS $PARAM_DO_PACKAGES $PARAM_DEBUG
 
 # TODO: in the future build_common.sh should probably be shared with all oem products?
 ./build_common.sh $PARAM_DEBUG $PARAM_NO_DAEMON $PARAM_NO_UPDATE $PARAM_LIB_BUILD $PARAM_NO_LIB_BUILD
