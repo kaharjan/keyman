@@ -175,8 +175,8 @@ public class KMKeyboardDownloaderActivity extends AppCompatActivity {
    * @param aPreparedCloudApiParams the prepared api params
    */
   public static void downloadKeyboard(Context context,
-                                                           String aLangId, String aKbId,
-                                                           List<CloudApiTypes.CloudApiParam> aPreparedCloudApiParams)
+                                     String aLangId, String aKbId,
+                                     List<CloudApiTypes.CloudApiParam> aPreparedCloudApiParams)
   {
     String _downloadid= CloudKeyboardMetaDataDownloadCallback.createDownloadId(aLangId , aKbId);
 
@@ -254,8 +254,8 @@ public class KMKeyboardDownloaderActivity extends AppCompatActivity {
    * @param aPreparedCloudApiParams the prepared api params
    */
   public static void downloadLexicalModel(Context context,
-                                                               String aModelId,
-                                                               List<CloudApiTypes.CloudApiParam> aPreparedCloudApiParams) {
+      String aModelId,
+      List<CloudApiTypes.CloudApiParam> aPreparedCloudApiParams) {
 
 
     String _downloadid= CloudLexicalPackageDownloadCallback.createDownloadId(aModelId);

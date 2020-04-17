@@ -30,6 +30,9 @@ import java.util.List;
 public class CloudDataJsonUtil {
 
   private static final String TAG = "CloudDataJsonUtil";
+
+  public final static String KEYBOARD_DOWNLOAD_URL_FORMATSTR = "https://downloads.keyman.com/api/keyboard/%s";
+
   private CloudDataJsonUtil()
   {
     //no instances
@@ -241,11 +244,17 @@ public class CloudDataJsonUtil {
     }
   }
 
+  public static File getKeyboardUpdateCacheFile(Context context) {
+    final String jsonCacheFilename = "jsonKeyboardUpdateCache.dat";
+    return new File(context.getCacheDir(), jsonCacheFilename);
+  }
+
+  /*
   public static File getKeyboardCacheFile(Context context) {
     final String jsonCacheFilename = "jsonKeyboardsCache.dat";
     return new File(context.getCacheDir(), jsonCacheFilename);
   }
-
+*/
   public static File getLexicalModelCacheFile(Context context) {
     final String jsonLexicalCacheFilename = "jsonLexicalModelsCache.dat";
     return new File(context.getCacheDir(), jsonLexicalCacheFilename);

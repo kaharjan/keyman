@@ -86,6 +86,10 @@ public class Keyboard implements Serializable, LanguageResource {
       bundle.putString(KMKeyboardDownloaderActivity.ARG_CUSTOM_HELP_LINK, getCustomHelpLink());
     }
 
+    // Assumption
+    String downloadURL = String.format("https://downloads.keyman.com/api/keyboard/%s", getResourceId());
+    bundle.putString(KMKeyboardDownloaderActivity.ARG_URL, downloadURL);
+
     return bundle;
   }
 

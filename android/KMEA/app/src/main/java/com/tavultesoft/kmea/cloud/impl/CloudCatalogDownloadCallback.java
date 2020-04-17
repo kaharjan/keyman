@@ -144,6 +144,7 @@ public class CloudCatalogDownloadCallback implements ICloudDownloadCallback<Data
       return;
     }
 
+    /*
     List<Keyboard> keyboardsArrayList = CloudDataJsonUtil.processKeyboardJSON(jsonTuple.keyboardJSON, false);
     List<LexicalModel> lexicalModelsArrayList = CloudDataJsonUtil.processLexicalModelJSON(jsonTuple.lexicalModelJSON);
 
@@ -229,7 +230,7 @@ public class CloudCatalogDownloadCallback implements ICloudDownloadCallback<Data
 
       updateHandler.onUpdateDetection(updateBundles);
     }
-
+    */
     // And finish.
     aDataSet.notifyDataSetChanged(); // Edits are done - signal that.
 

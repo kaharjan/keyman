@@ -70,17 +70,17 @@ public class CloudKeyboardDataDownloadCallback implements ICloudDownloadCallback
         try {
 
           String _pkg = _d.getCloudParams().getAdditionalProperty(PARAM_PACKAGE,String.class);
-            String destination = dataDir.toString() +
-               File.separator + _pkg + File.separator;
+          String destination = dataDir.toString() +
+             File.separator; //+ _pkg + File.separator;
 
-            String _filename = _d.getCloudParams().getAdditionalProperty(PARAM_DESTINATION_FILE_NAME,String.class);
-            if (_filename==null) {
+          String _filename = _d.getCloudParams().getAdditionalProperty(PARAM_DESTINATION_FILE_NAME,String.class);
+          if (_filename==null) {
 
-              _filename = FileUtils.getFilename(_d.getCloudParams().url);
-            }
+            _filename = FileUtils.getFilename(_d.getCloudParams().url);
+          }
 
-            File _data_file = new File(destination,_filename);
-            FileUtils.copy(_d.getDestinationFile(), _data_file);
+          File _data_file = new File(destination,_filename);
+          FileUtils.copy(_d.getDestinationFile(), _data_file);
 
         }
         catch (IOException _e)

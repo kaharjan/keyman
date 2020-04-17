@@ -49,6 +49,10 @@ public class CloudApiTypes {
      */
     Keyboard,
     /**
+     * Keyboard download: download keyboard package
+     */
+    KeyboardPackage,
+    /**
      * Keyboard download: lexical models meta data for the language of the selected keyboard.
      */
     KeyboardLexicalModels,

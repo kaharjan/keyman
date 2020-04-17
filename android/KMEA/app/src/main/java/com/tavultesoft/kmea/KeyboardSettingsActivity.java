@@ -41,6 +41,9 @@ import com.tavultesoft.kmea.util.HelpFile;
 import com.tavultesoft.kmea.util.MapCompat;
 import com.tavultesoft.kmea.util.QRCodeUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import static com.tavultesoft.kmea.ConfirmDialogFragment.DialogType.DIALOG_TYPE_DELETE_KEYBOARD;
 
 // Public access is necessary to avoid IllegalAccessException
@@ -101,10 +104,12 @@ public final class KeyboardSettingsActivity extends AppCompatActivity {
     final String noIcon = "0";
     String icon = noIcon;
     HashMap<String, String> hashMap = new HashMap<>();
+    //final String downloadUrlStr = getKMPDownloadURL(context, kbID);
     hashMap.put(titleKey, getString(R.string.keyboard_version));
     hashMap.put(subtitleKey, kbVersion);
     // Display notification to download update if latestKbdCloudVersion > kbVersion (installed)
-    if (FileUtils.compareVersions(latestKbdCloudVersion, kbVersion) == FileUtils.VERSION_GREATER) {
+    if ((FileUtils.compareVersions(latestKbdCloudVersion, kbVersion) == FileUtils.VERSION_GREATER) &&
+        KMManager.hasConnection(context)) {
       hashMap.put(subtitleKey, context.getString(R.string.update_available, kbVersion));
       icon = String.valueOf(R.drawable.ic_cloud_download);
     }
@@ -171,7 +176,6 @@ public final class KeyboardSettingsActivity extends AppCompatActivity {
           Intent i = new Intent(getApplicationContext(), KMKeyboardDownloaderActivity.class);
           i.putExtras(args);
           startActivity(i);
-
         // "Help" link clicked
         } else if (itemTitle.equals(getString(R.string.help_link))) {
           if (customHelpLink != null) {
@@ -225,4 +229,30 @@ public final class KeyboardSettingsActivity extends AppCompatActivity {
 
   }
 
+  private String getKMPDownloadURL(Context context, String kbID) {
+    String url = "";
+    if (!KMManager.hasConnection(context)) {
+      return url; // Empty string if no internet connection
+    }
+
+    String query = String.format("https://downloads.keyman.com/api/keyboard/%s", kbID);
+    JSONParser parser = new JSONParser();
+    JSONObject obj = parser.getJSONObjectFromUrl(query);
+
+    if (obj == null) {
+      return url;
+    }
+
+    try {
+      if (obj.has("kmp")) {
+        url = obj.getString("kmp");
+      } else if (obj.has("js")) {
+        url = obj.getString("js");
+      }
+    } catch (JSONException e) {
+      Log.e(TAG, "JSONException parsing " + query);
+    }
+
+    return url;
+  }
 }

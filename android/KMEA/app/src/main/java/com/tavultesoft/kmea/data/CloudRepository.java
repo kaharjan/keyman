@@ -27,6 +27,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class CloudRepository {
@@ -40,7 +41,7 @@ public class CloudRepository {
   private boolean invalidateLexicalCache = false;
 
   // DEBUG:  Never allow these to be `true` in production.
-  private static final boolean DEBUG_DISABLE_CACHE = false;
+  private static final boolean DEBUG_DISABLE_CACHE = true;
 
   private boolean updateIsRunning = false;
 
@@ -122,20 +123,14 @@ public class CloudRepository {
     file.delete();
   }
 
-  private CloudApiTypes.CloudApiParam prepareKeyboardUpdateQuery(Context aContext)
+  private CloudApiTypes.CloudApiParam prepareKeyboardUpdateQuery(Context aContext, String keyboardID)
   {
-    String deviceType = CloudDataJsonUtil.getDeviceTypeForCloudQuery(aContext);
-
-    // Sanitize appVersion to #.#.# to match the API spec
-    // Regex needs to match the entire string
-    String appVersion = KMManager.getVersion();
-    // Retrieves the cloud-based keyboard catalog in Android's preferred format.
-    String keyboardURL = String.format("%s?version=%s&device=%s&languageidtype=bcp47",
-      KMKeyboardDownloaderActivity.kKeymanApiBaseURL, appVersion, deviceType);
+    // Retrieves the cloud-based keyboard links.
+    String keyboardURL = String.format(CloudDataJsonUtil.KEYBOARD_DOWNLOAD_URL_FORMATSTR, keyboardID);
 
     //cloudQueries[cloudQueryEntries++] = new CloudApiParam(ApiTarget.Keyboards, keyboardURL, JSONType.Object);
    return new CloudApiTypes.CloudApiParam(
-     CloudApiTypes.ApiTarget.Keyboards, keyboardURL).setType(CloudApiTypes.JSONType.Object);
+     CloudApiTypes.ApiTarget.Keyboard, keyboardURL).setType(CloudApiTypes.JSONType.Object);
   }
 
   private CloudApiTypes.CloudApiParam prepareLexicalModellUpdateQuery(Context aContext)
@@ -349,9 +344,15 @@ public class CloudRepository {
     //    int cloudQueryEntries = 0;
     List<CloudApiTypes.CloudApiParam> cloudQueries = new ArrayList<>(2);
 
-    if (!loadKeyboardsFromCache) {
-
-      cloudQueries.add(prepareKeyboardUpdateQuery(context));
+    if (!loadKeyboardsFromCache && memCachedDataset != null) {
+      HashMap<String, String> hashMap = new HashMap<String, String>();
+      for( Keyboard k : memCachedDataset.keyboards.asList()){
+        String keyboardID = k.getResourceId();
+        if (!hashMap.containsKey(keyboardID)) {
+          cloudQueries.add(prepareKeyboardUpdateQuery(context, keyboardID));
+          hashMap.put(keyboardID, "");
+        }
+      }
     }
 
     if (!loadLexicalModelsFromCache) {

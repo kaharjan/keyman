@@ -234,6 +234,8 @@ public class CloudKeyboardMetaDataDownloadCallback implements ICloudDownloadCall
       if (_kbName.isEmpty() || _langName.isEmpty())
         throw new IllegalStateException("JSON file does not contain a valid base values for _keyboard object");
 
+      // Trigger download?
+
       ArrayList<CloudApiTypes.CloudApiParam> urls = new ArrayList<>();
 
       urls.add(prepareKeyboardPackageDownload(options, _keyboard));
@@ -324,6 +326,17 @@ public class CloudKeyboardMetaDataDownloadCallback implements ICloudDownloadCall
     String _pkgID = aKeyboard.optString(KMManager.KMKey_PackageID, KMManager.KMDefault_UndefinedPackageID);
     String kbUrl = kbBaseUri + _kbFilename;
 
+    // Convert cloud keyboard download into keyboard package download
+    try {
+      String _kbID = aKeyboard.getString(KMManager.KMKey_ID);
+      // Generally, the package ID = keyboard ID
+      _pkgID = _kbID;
+      _js_filename = String.format("%s.kmp", _pkgID); // TODO: rename _js_filename
+      kbUrl = String.format("https://downloads.keyman.com/keyboards/%s/%s/%s", _pkgID, _kbVersion, _js_filename);
+    } catch (JSONException e) {
+      Log.e(TAG, "Error getting keyboard ID");
+    }
+
     return new CloudApiTypes.CloudApiParam(CloudApiTypes.ApiTarget.KeyboardData, kbUrl)
       .setAdditionalProperty(
         CloudKeyboardDataDownloadCallback.PARAM_PACKAGE, _pkgID)
@@ -342,4 +355,13 @@ public class CloudKeyboardMetaDataDownloadCallback implements ICloudDownloadCall
     return "metadata_" + aLanguageId + "_" + aKeyboardId;
   }
 
+  /**
+   * create a download id for the keyboard metadata.
+   * @param aKeyboardId the keyboard id
+   * @return the result
+   */
+  public static String createDownloadId(String aKeyboardId)
+  {
+    return "metadata_" + aKeyboardId;
+  }
 }
