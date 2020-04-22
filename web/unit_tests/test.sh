@@ -108,6 +108,8 @@ BASE_PATH=`dirname $BASH_SOURCE`
 cd $BASE_PATH/../source
 
 ./build_dev_resources.sh
+cd ../tools/recorder
+./build.sh
 
 npm --no-color run modernizr -- -c unit_tests/modernizr.config.json -d unit_tests/modernizr.js
 npm --no-color run karma -- start $FLAGS $BROWSERS unit_tests/$CONFIG
