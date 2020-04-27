@@ -108,10 +108,8 @@ public class KMKeyboardDownloaderActivity extends AppCompatActivity {
 
       kbID = bundle.getString(ARG_KB_ID);
       kbName = bundle.getString(ARG_KB_NAME);
-      isCustom = bundle.getBoolean(ARG_IS_CUSTOM);
 
       // URL parameters for custom keyboard (if they exist)
-      customKeyboard = bundle.getString(ARG_KEYBOARD);
       customLanguage = bundle.getString(ARG_LANGUAGE);
       url = bundle.getString(ARG_URL);
       filename = bundle.getString(ARG_FILENAME);

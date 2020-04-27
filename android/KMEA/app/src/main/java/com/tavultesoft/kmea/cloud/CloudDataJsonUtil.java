@@ -36,7 +36,7 @@ public class CloudDataJsonUtil {
   }
 
   public static HashMap<String,String> createKeyboardInfoMap(String aPackageId,String aLanguageId, String aLanguageName, String aKeyboardId,
-                                                   String aKeyboardName, String aKeyboardVersion, String anIsCustomKeyboard,
+                                                   String aKeyboardName, String aKeyboardVersion,
                                                    String aFont, String aOskFont, String aCustomHelpLink)
   {
     HashMap<String, String> keyboardInfo = new HashMap<String, String>();
@@ -46,7 +46,6 @@ public class CloudDataJsonUtil {
     keyboardInfo.put(KMManager.KMKey_KeyboardName, aKeyboardName);
     keyboardInfo.put(KMManager.KMKey_LanguageName, aLanguageName);
     keyboardInfo.put(KMManager.KMKey_KeyboardVersion, aKeyboardVersion);
-    keyboardInfo.put(KMManager.KMKey_CustomKeyboard, anIsCustomKeyboard);
     keyboardInfo.put(KMManager.KMKey_Font, aFont);
     if (aOskFont != null) {
       keyboardInfo.put(KMManager.KMKey_OskFont, aOskFont);
@@ -93,17 +92,18 @@ public class CloudDataJsonUtil {
       // Parse each model JSON Object.
       int modelsLength = models.length();
       for (int i = 0; i < modelsLength; i++) {
-        JSONObject model = models.getJSONObject(i);
+        JSONObject modelJSON = models.getJSONObject(i);
         String packageID = "", modelURL = "";
-        if (model.has(KMManager.KMKey_PackageID)) {
-          packageID = model.getString(KMManager.KMKey_PackageID);
+        if (modelJSON.has(KMManager.KMKey_PackageID)) {
+          packageID = modelJSON.getString(KMManager.KMKey_PackageID);
         } else {
           // Determine package ID from packageFilename
-          modelURL = model.optString("packageFilename", "");
+          modelURL = modelJSON.optString("packageFilename", "");
           packageID = FileUtils.getFilename(modelURL);
           packageID = packageID.replace(FileUtils.MODELPACKAGE, "");
         }
 
+        /*
         // api.keyman.com query returns an array of language IDs Strings while
         // kmp.json "languages" is an array of JSONObject
         String languageID = "", langName = "";
@@ -136,12 +136,11 @@ public class CloudDataJsonUtil {
         hashMap.put(KMManager.KMKey_LexicalModelName, modelName);
         hashMap.put(KMManager.KMKey_LanguageName, langName);
         hashMap.put(KMManager.KMKey_LexicalModelVersion, modelVersion);
-        hashMap.put(KMManager.KMKey_CustomModel, isCustom);
         hashMap.put(KMManager.KMKey_LexicalModelPackageFilename, modelURL);
         hashMap.put("isEnabled", "true");
         hashMap.put(KMManager.KMKey_Icon, String.valueOf(R.drawable.ic_arrow_forward));
-
-        modelList.add(new LexicalModel(hashMap));
+        */
+        modelList.add(new LexicalModel(modelJSON, modelURL));
       }
     } catch (JSONException | NullPointerException e) {
       Log.e(TAG, "JSONParse Error: " + e);
